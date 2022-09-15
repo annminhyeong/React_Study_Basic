@@ -1,29 +1,55 @@
 import { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import data from './data.js';
+import Detail from './routes/Detail';
 
 function App() {
   let [shoes] = useState(data);
+  let navigate = useNavigate();
+
   return (
     <div className='App'>
       <Navbar bg='light' variant='light'>
         <Container>
-          <Navbar.Brand href='#home'>ShoeShop</Navbar.Brand>
+          <Navbar.Brand onClick={() => navigate('/')}>ShoeShop</Navbar.Brand>
           <Nav className='me-auto'>
-            <Nav.Link href='#home'>Home</Nav.Link>
-            <Nav.Link href='#features'>Cart</Nav.Link>
+            <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
+            <Nav.Link onClick={() => navigate('/detail')}>Detail</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
-      <div className='main-bg'></div>
-      <div className='container'>
-        <div className='row'>
-          {shoes.map((item, i) => {
-            return <Cart shoes={item} i={i} />;
-          })}
-        </div>
-      </div>
+      <Link to='/'>홈</Link>
+      <Link to='/detail'>상세페이지</Link>
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <>
+              {' '}
+              <div className='main-bg'></div>
+              <div className='container'>
+                <div className='row'>
+                  {shoes.map((item, i) => {
+                    return <Cart shoes={item} i={i} />;
+                  })}
+                </div>
+              </div>
+            </>
+          }
+        />
+        <Route path='/detail/:id' element={<Detail shoes={shoes} />} />
+      </Routes>
+    </div>
+  );
+}
+
+function About() {
+  return (
+    <div>
+      <h4>회사정보임</h4>
+      <Outlet></Outlet>
     </div>
   );
 }
