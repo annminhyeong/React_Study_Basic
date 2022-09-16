@@ -20,8 +20,6 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-      <Link to='/'>홈</Link>
-      <Link to='/detail'>상세페이지</Link>
       <Routes>
         <Route
           path='/'
@@ -32,7 +30,7 @@ function App() {
               <div className='container'>
                 <div className='row'>
                   {shoes.map((item, i) => {
-                    return <Cart shoes={item} i={i} />;
+                    return <Cart key={i} shoes={item} i={i} />;
                   })}
                 </div>
               </div>
@@ -55,8 +53,13 @@ function About() {
 }
 
 function Cart(props) {
+  let navigate = useNavigate();
   return (
-    <div className='col-md-4'>
+    <div
+      key={props.i}
+      className='col-md-4'
+      onClick={() => navigate(`detail/${props.i}`)}
+    >
       <img
         src={`https://codingapple1.github.io/shop/shoes${props.i + 1}.jpg`}
         width='80%'
