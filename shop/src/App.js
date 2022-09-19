@@ -1,12 +1,14 @@
+import { Button } from 'bootstrap';
 import { useState } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import data from './data.js';
 import Detail from './routes/Detail';
+import axios from 'axios';
 
 function App() {
-  let [shoes] = useState(data);
+  let [shoes, setShoes] = useState(data);
   let navigate = useNavigate();
 
   return (
@@ -34,6 +36,20 @@ function App() {
                   })}
                 </div>
               </div>
+              <button
+                onClick={() => {
+                  axios
+                    .get('https://codingapple1.github.io/shop/data2.json')
+                    .then((결과) => {
+                      setShoes([...shoes, ...결과.data]);
+                    })
+                    .catch(() => {
+                      console.log('서버오류');
+                    });
+                }}
+              >
+                버튼
+              </button>
             </>
           }
         />
@@ -55,11 +71,7 @@ function About() {
 function Cart(props) {
   let navigate = useNavigate();
   return (
-    <div
-      key={props.i}
-      className='col-md-4'
-      onClick={() => navigate(`detail/${props.i}`)}
-    >
+    <div className='col-md-4' onClick={() => navigate(`detail/${props.i}`)}>
       <img
         src={`https://codingapple1.github.io/shop/shoes${props.i + 1}.jpg`}
         width='80%'
