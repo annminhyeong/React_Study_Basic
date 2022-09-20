@@ -1,12 +1,13 @@
 import React, { Component, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-
+import { Nav } from 'react-bootstrap';
 function Detail(props) {
   let [chk, setChk] = useState(true);
   let [count, setCount] = useState(0);
   let { id } = useParams();
   let 찾은상품 = props.shoes.find((x) => x.id == id);
   let [num, setNum] = useState('');
+  let [탭, 탭변경] = useState(0);
 
   //Mount
   useEffect(() => {}, []);
@@ -30,9 +31,19 @@ function Detail(props) {
     };
   });
 
+  let [fade2, setFade2] = useState('');
+
+  useEffect(() => {
+    setFade2('end');
+
+    return () => {
+      setFade2('');
+    };
+  }, []);
+
   return (
     <div className='Detail'>
-      <div className='container'>
+      <div className={`container start ${fade2}`}>
         <input
           onChange={(e) => {
             setNum(e.target.value);
@@ -60,6 +71,42 @@ function Detail(props) {
           </div>
         </div>
       </div>
+      <Nav variant='tabs' defaultActiveKey='link0'>
+        <Nav.Item>
+          <Nav.Link eventKey='link0' onClick={() => 탭변경(0)}>
+            버튼0
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey='link1' onClick={() => 탭변경(1)}>
+            버튼1
+          </Nav.Link>
+        </Nav.Item>
+        <Nav.Item>
+          <Nav.Link eventKey='link2' onClick={() => 탭변경(2)}>
+            버튼2
+          </Nav.Link>
+        </Nav.Item>
+      </Nav>
+      <TabContent 탭={탭} />
+    </div>
+  );
+}
+
+function TabContent({ 탭 }) {
+  let [fade, setFade] = useState('');
+
+  useEffect(() => {
+    setTimeout(() => setFade('end'), 100);
+
+    return () => {
+      setFade('');
+    };
+  }, [탭]);
+
+  return (
+    <div className={`start ${fade}`}>
+      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭]}
     </div>
   );
 }
