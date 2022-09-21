@@ -1,7 +1,11 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
+import { Context1 } from '../App';
+
 function Detail(props) {
+  let { 제고, shoes } = useContext(Context1);
+
   let [chk, setChk] = useState(true);
   let [count, setCount] = useState(0);
   let { id } = useParams();
@@ -94,6 +98,7 @@ function Detail(props) {
 }
 
 function TabContent({ 탭 }) {
+  let { 제고, shoes } = useContext(Context1);
   let [fade, setFade] = useState('');
 
   useEffect(() => {
@@ -106,7 +111,7 @@ function TabContent({ 탭 }) {
 
   return (
     <div className={`start ${fade}`}>
-      {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭]}
+      {[<div>{제고}</div>, <div>내용1</div>, <div>내용2</div>][탭]}
     </div>
   );
 }

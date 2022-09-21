@@ -1,5 +1,5 @@
 import { Button } from 'bootstrap';
-import { useState } from 'react';
+import { useState, createContext } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
@@ -7,8 +7,12 @@ import data from './data.js';
 import Detail from './routes/Detail';
 import axios from 'axios';
 
+export let Context1 = createContext();
+
 function App() {
   let [shoes, setShoes] = useState(data);
+  let [제고, 제고변경] = useState([10, 11, 12]);
+
   let navigate = useNavigate();
 
   return (
@@ -53,7 +57,14 @@ function App() {
             </>
           }
         />
-        <Route path='/detail/:id' element={<Detail shoes={shoes} />} />
+        <Route
+          path='/detail/:id'
+          element={
+            <Context1.Provider value={{ 제고, shoes }}>
+              <Detail shoes={shoes} />
+            </Context1.Provider>
+          }
+        />
       </Routes>
     </div>
   );
