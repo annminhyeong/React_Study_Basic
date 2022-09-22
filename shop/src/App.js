@@ -1,10 +1,10 @@
-import { Button } from 'bootstrap';
 import { useState, createContext } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import data from './data.js';
 import Detail from './routes/Detail';
+import Cart1 from './routes/Cart';
 import axios from 'axios';
 
 export let Context1 = createContext();
@@ -22,7 +22,7 @@ function App() {
           <Navbar.Brand onClick={() => navigate('/')}>ShoeShop</Navbar.Brand>
           <Nav className='me-auto'>
             <Nav.Link onClick={() => navigate('/')}>Home</Nav.Link>
-            <Nav.Link onClick={() => navigate('/detail')}>Detail</Nav.Link>
+            <Nav.Link onClick={() => navigate('/cart')}>Cart</Nav.Link>
           </Nav>
         </Container>
       </Navbar>
@@ -65,6 +65,7 @@ function App() {
             </Context1.Provider>
           }
         />
+        <Route path='/cart' element={<Cart1 />}></Route>
       </Routes>
     </div>
   );
