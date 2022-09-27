@@ -2,10 +2,12 @@ import React, { Component, useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 import { Context1 } from '../App';
+import { useDispatch } from 'react-redux';
+import { addItem } from '../store';
 
 function Detail(props) {
+  let dispatch = useDispatch();
   let { 제고, shoes } = useContext(Context1);
-
   let [chk, setChk] = useState(true);
   let [count, setCount] = useState(0);
   let { id } = useParams();
@@ -71,7 +73,16 @@ function Detail(props) {
             <h4 className='pt-5'>{찾은상품.title}</h4>
             <p>{찾은상품.content}</p>
             <p>{찾은상품.price}원</p>
-            <button className='btn btn-danger'>주문하기</button>
+            <button
+              className='btn btn-danger'
+              onClick={() => {
+                dispatch(
+                  addItem({ id: 찾은상품.id, name: 찾은상품.title, count: 0 })
+                );
+              }}
+            >
+              주문하기
+            </button>
           </div>
         </div>
       </div>

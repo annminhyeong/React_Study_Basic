@@ -1,16 +1,5 @@
 import { configureStore, createSlice } from '@reduxjs/toolkit';
-
-let user = createSlice({
-  name: 'user',
-  initialState: 'kim',
-  reducers: {
-    changeName(state) {
-      return `john ${state}`;
-    },
-  },
-});
-
-export let { changeName } = user.actions;
+import user from './store/userSlice';
 
 let cart = createSlice({
   name: 'cart',
@@ -18,7 +7,22 @@ let cart = createSlice({
     { id: 0, name: 'White and Black', count: 2 },
     { id: 2, name: 'Grey Yordan', count: 1 },
   ],
+
+  reducers: {
+    addCount(state, action) {
+      let 번호 = state.findIndex((item) => item.id == action.payload);
+      state[번호].count++;
+    },
+    addItem(state, action) {
+      let a = state.map((item) => item.id == action.payload.id);
+      console.log(a);
+      if (a[0] == true) return;
+      state.push(action.payload);
+    },
+  },
 });
+
+export let { addCount, addItem } = cart.actions;
 
 export default configureStore({
   reducer: {
