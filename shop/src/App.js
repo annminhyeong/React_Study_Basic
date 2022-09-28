@@ -1,4 +1,4 @@
-import { useState, createContext } from 'react';
+import { useState, createContext, useEffect } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
@@ -10,6 +10,15 @@ import axios from 'axios';
 export let Context1 = createContext();
 
 function App() {
+  useEffect(() => {
+    if (localStorage.getItem('watched') == '[]')
+      localStorage.setItem('watched', JSON.stringify([]));
+  }, []);
+
+  let obj = { name: 'kim' };
+  localStorage.setItem('data', JSON.stringify(obj));
+  let a = JSON.parse(localStorage.getItem('data'));
+
   let [shoes, setShoes] = useState(data);
   let [제고, 제고변경] = useState([10, 11, 12]);
 

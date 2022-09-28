@@ -15,6 +15,14 @@ function Detail(props) {
   let [num, setNum] = useState('');
   let [탭, 탭변경] = useState(0);
 
+  useEffect(() => {
+    let a = JSON.parse(localStorage.getItem('watched'));
+    a.push(찾은상품.id);
+    a = new Set(a);
+    a = Array.from(a);
+    localStorage.setItem('watched', JSON.stringify(a));
+  }, []);
+
   //Mount
   useEffect(() => {}, []);
 
