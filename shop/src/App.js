@@ -1,13 +1,12 @@
-import { useState, createContext, useEffect } from 'react';
+import { useState, createContext, useEffect, lazy, Suspense } from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
 import { Routes, Route, Link, useNavigate, Outlet } from 'react-router-dom';
 import './App.css';
 import data from './data.js';
-import Detail from './routes/Detail';
-import Cart1 from './routes/Cart';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-
+const Detail = lazy(() => import('./routes/Detail'));
+const Cart1 = lazy(() => import('./routes/Cart'));
 export let Context1 = createContext();
 
 function App() {
@@ -49,47 +48,49 @@ function App() {
           </Nav>
         </Container>
       </Navbar>
-      <Routes>
-        <Route
-          path='/'
-          element={
-            <>
-              {' '}
-              <div className='main-bg'></div>
-              <div className='container'>
-                <div className='row'>
-                  {shoes.map((item, i) => {
-                    return <Cart key={i} shoes={item} i={i} />;
-                  })}
+      <Suspense fallback={<div>로딩중</div>}>
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <>
+                {' '}
+                <div className='main-bg'></div>
+                <div className='container'>
+                  <div className='row'>
+                    {shoes.map((item, i) => {
+                      return <Cart key={i} shoes={item} i={i} />;
+                    })}
+                  </div>
                 </div>
-              </div>
-              <button
-                onClick={() => {
-                  axios
-                    .get('https://codingapple1.github.io/shop/data2.json')
-                    .then((결과) => {
-                      setShoes([...shoes, ...결과.data]);
-                    })
-                    .catch(() => {
-                      console.log('서버오류');
-                    });
-                }}
-              >
-                버튼
-              </button>
-            </>
-          }
-        />
-        <Route
-          path='/detail/:id'
-          element={
-            <Context1.Provider value={{ 제고, shoes }}>
-              <Detail shoes={shoes} />
-            </Context1.Provider>
-          }
-        />
-        <Route path='/cart' element={<Cart1 />}></Route>
-      </Routes>
+                <button
+                  onClick={() => {
+                    axios
+                      .get('https://codingapple1.github.io/shop/data2.json')
+                      .then((결과) => {
+                        setShoes([...shoes, ...결과.data]);
+                      })
+                      .catch(() => {
+                        console.log('서버오류');
+                      });
+                  }}
+                >
+                  버튼
+                </button>
+              </>
+            }
+          />
+          <Route
+            path='/detail/:id'
+            element={
+              <Context1.Provider value={{ 제고, shoes }}>
+                <Detail shoes={shoes} />
+              </Context1.Provider>
+            }
+          />
+          <Route path='/cart' element={<Cart1 />}></Route>
+        </Routes>
+      </Suspense>
     </div>
   );
 }
