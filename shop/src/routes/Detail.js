@@ -5,12 +5,12 @@ import { Context1 } from '../App';
 import { useDispatch } from 'react-redux';
 import { addItem } from '../store';
 
-var a = 0;
+// var a = 0;
 
 function Detail(props) {
-  for (var i = 0; i < 1e9; i++) {
-    a = i;
-  }
+  // for (var i = 0; i < 1e9; i++) {
+  //   a = i;
+  // }
 
   let dispatch = useDispatch();
   let { 제고, shoes } = useContext(Context1);
