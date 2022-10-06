@@ -5,6 +5,7 @@ import './App.css';
 import data from './data.js';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
+const Test = lazy(() => import('./routes/Test'));
 const Detail = lazy(() => import('./routes/Detail'));
 const Cart1 = lazy(() => import('./routes/Cart'));
 export let Context1 = createContext();
@@ -89,6 +90,7 @@ function App() {
             }
           />
           <Route path='/cart' element={<Cart1 />}></Route>
+          <Route path='/test' element={<Test />}></Route>
         </Routes>
       </Suspense>
     </div>
